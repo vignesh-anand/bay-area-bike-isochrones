@@ -194,7 +194,22 @@ def render_map(stations: pd.DataFrame, geojson: dict, out_path: Path) -> None:
         control_scale=True,
     )
 
-    folium.TileLayer("OpenStreetMap", name="OpenStreetMap").add_to(fmap)
+    # Additional basemaps. Skipping the raw OpenStreetMap.org tile layer
+    # because their tile-usage policy returns 403 without a Referer header
+    # when embedded - we use OSM-derived tiles via Carto/Esri instead.
+    folium.TileLayer(
+        "CartoDB Voyager",
+        name="OSM (Carto Voyager)",
+        attr="\u00a9 OpenStreetMap contributors \u00a9 CARTO",
+    ).add_to(fmap)
+    folium.TileLayer(
+        tiles=("https://server.arcgisonline.com/ArcGIS/rest/services/"
+               "World_Imagery/MapServer/tile/{z}/{y}/{x}"),
+        name="Satellite (Esri)",
+        attr=("Tiles \u00a9 Esri \u2014 Source: Esri, Maxar, Earthstar "
+              "Geographics, and the GIS User Community"),
+        max_zoom=19,
+    ).add_to(fmap)
 
     feats_by_agency: dict[str, list] = {a: [] for a in AGENCY_COLORS}
     for feat in geojson["features"]:
