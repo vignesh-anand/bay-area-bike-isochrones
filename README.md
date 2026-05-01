@@ -7,6 +7,12 @@ Isochrones are computed offline from OpenStreetMap's bike-friendly street
 network (via [OSMnx](https://osmnx.readthedocs.io/)). No API keys, no signups,
 no cloud services.
 
+[![Bay Area 15-min bike isochrones around BART + Caltrain stations](docs/preview.png)](https://vignesh-anand.github.io/bay-area-bike-isochrones/)
+
+**[Click the map for the interactive version](https://vignesh-anand.github.io/bay-area-bike-isochrones/)** — pan, zoom, click stations, toggle BART vs Caltrain layers.
+
+You can also drag [`isochrones.geojson`](#exporting) onto [geojson.io](https://geojson.io) or [kepler.gl](https://kepler.gl), or open [`bay_area_bike_isochrones.kml`](#exporting) in Google Earth.
+
 ## Motivation
 
 I'm exploring whether **car-free living is realistic in the Bay Area**, and
@@ -108,10 +114,27 @@ Then re-run with `--rebuild`.
 
 - `stations.csv` — agency, name, lat, lon for every station.
 - `build_map.py` — end-to-end script (compute + render).
+- `render_preview.py` — generates the static PNG used in this README.
 - `requirements.txt` — Python dependencies.
+- `docs/index.html` — the interactive map, deployed to GitHub Pages.
+- `docs/preview.png` — static map embedded above.
 - `cache/` (generated) — OSMnx HTTP response cache.
 - `isochrones.geojson` (generated) — one Polygon feature per station.
-- `bay_area_bike_isochrones.html` (generated) — the interactive map.
+
+## Exporting
+
+The script produces several formats so you can use the data wherever:
+
+| Output | Format | Use it in |
+|---|---|---|
+| `bay_area_bike_isochrones.html` | Folium / Leaflet HTML | Any browser (also deployed to GitHub Pages) |
+| `bay_area_bike_isochrones.kml` (with `--kml`) | KML | Google Earth Pro / Web, Google My Maps |
+| `isochrones.geojson` | GeoJSON | QGIS, [geojson.io](https://geojson.io), [kepler.gl](https://kepler.gl), [Felt](https://felt.com), Mapbox, ArcGIS |
+
+```bash
+python build_map.py --map-only --kml   # re-render outputs without recomputing
+python render_preview.py               # regenerate the static PNG for this README
+```
 
 ## Caveats
 
