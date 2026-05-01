@@ -290,15 +290,25 @@ def render_map(stations: pd.DataFrame, geojson: dict, out_path: Path) -> None:
     print(f"Wrote {out_path}")
 
 
+def _web_rgb_to_kml(rgb_hex: str, alpha: int = 0x99) -> str:
+    """Convert a web color like '#0066cc' to KML 'AABBGGRR' format.
+    KML uses a non-standard byte order: alpha, then blue, green, red."""
+    rgb_hex = rgb_hex.lstrip("#")
+    r, g, b = rgb_hex[0:2], rgb_hex[2:4], rgb_hex[4:6]
+    return f"{alpha:02x}{b}{g}{r}"
+
+
 def write_kml(geojson: dict, stations: pd.DataFrame, out_path: Path) -> None:
     """Write a Google Earth-compatible KML with one polygon per station and a
     point marker for each. No external KML library needed."""
     from xml.sax.saxutils import escape
 
-    agency_kml_color = {
-        "BART": "990066cc",      # AABBGGRR (KML byte order, semi-transparent)
-        "Caltrain": "9900007d",  # red-ish, swapped to KML BGR
-    }
+    fill_alpha = 0x99   # ~60% opaque polygon fills
+    line_alpha = 0xff   # solid outlines
+    agency_kml_fill = {a: _web_rgb_to_kml(c, fill_alpha)
+                       for a, c in AGENCY_COLORS.items()}
+    agency_kml_line = {a: _web_rgb_to_kml(c, line_alpha)
+                       for a, c in AGENCY_COLORS.items()}
 
     parts: list[str] = [
         '<?xml version="1.0" encoding="UTF-8"?>',
@@ -307,17 +317,18 @@ def write_kml(geojson: dict, stations: pd.DataFrame, out_path: Path) -> None:
         f'<name>Bay Area BART + Caltrain {RIDE_MINUTES}-min bike isochrones</name>',
     ]
 
-    for agency, color in agency_kml_color.items():
+    for agency in AGENCY_COLORS:
+        line_color = agency_kml_line[agency]
+        fill_color = agency_kml_fill[agency]
         parts.append(f'<Style id="poly_{agency}">')
-        parts.append('<LineStyle>'
-                     f'<color>ff{color[2:]}</color><width>1</width>'
+        parts.append(f'<LineStyle><color>{line_color}</color><width>2</width>'
                      '</LineStyle>')
-        parts.append(f'<PolyStyle><color>{color}</color><fill>1</fill>'
+        parts.append(f'<PolyStyle><color>{fill_color}</color><fill>1</fill>'
                      '<outline>1</outline></PolyStyle>')
         parts.append('</Style>')
         parts.append(f'<Style id="pin_{agency}">')
         parts.append('<IconStyle>'
-                     f'<color>ff{color[2:]}</color><scale>0.8</scale>'
+                     f'<color>{line_color}</color><scale>0.8</scale>'
                      '<Icon><href>http://maps.google.com/mapfiles/kml/shapes/cycling.png</href></Icon>'
                      '</IconStyle>')
         parts.append('</Style>')
