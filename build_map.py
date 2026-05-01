@@ -303,7 +303,7 @@ def write_kml(geojson: dict, stations: pd.DataFrame, out_path: Path) -> None:
     point marker for each. No external KML library needed."""
     from xml.sax.saxutils import escape
 
-    fill_alpha = 0x99   # ~60% opaque polygon fills
+    fill_alpha = 0x4d   # ~30% opaque polygon fills
     line_alpha = 0xff   # solid outlines
     agency_kml_fill = {a: _web_rgb_to_kml(c, fill_alpha)
                        for a, c in AGENCY_COLORS.items()}
