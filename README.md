@@ -7,6 +7,31 @@ Isochrones are computed offline from OpenStreetMap's bike-friendly street
 network (via [OSMnx](https://osmnx.readthedocs.io/)). No API keys, no signups,
 no cloud services.
 
+## Motivation
+
+I'm exploring whether **car-free living is realistic in the Bay Area**, and
+the practical answer hinges on a question this map tries to make concrete:
+
+> *Where can I actually live, work, and run errands using only a bike +
+> Caltrain/BART?*
+
+For most everyday trips, a 15-minute bike ride to a station is the upper
+bound of what feels effortless and repeatable — short enough to do daily
+without sweating through work clothes, long enough to extend the practical
+catchment of each station from a 0.5-mile walkshed (~10x area) to a
+3-4 km bikeshed.
+
+Layering all 81 station bikesheds together shows the **true union of places
+in the Bay Area where car-free living is genuinely viable**: where you can
+get to a regional rail line by bike in under 15 minutes, and from there
+reach the rest of the network. Areas inside the colored polygons are
+candidate neighborhoods to live, work, or look for housing. Areas outside
+either require a car, an e-bike, or a longer transit ride.
+
+The dark, blended overlaps (several station bikesheds stacked) are the most
+flexible spots — multiple stations to choose from, redundant transit, often
+walkable too.
+
 ## Quickstart
 
 ```bash
