@@ -9,7 +9,10 @@ no cloud services.
 
 [![Bay Area 15-min bike isochrones around BART + Caltrain stations](docs/preview.png)](https://vignesh-anand.github.io/bay-area-bike-isochrones/)
 
-**[Click the map for the interactive version](https://vignesh-anand.github.io/bay-area-bike-isochrones/)** — pan, zoom, click stations, toggle BART vs Caltrain layers.
+**Live versions:**
+
+- 🌐 **[Interactive Folium map](https://vignesh-anand.github.io/bay-area-bike-isochrones/)** — pan, zoom, click stations, toggle BART vs Caltrain layers, switch basemaps (light, OSM, satellite). Hosted on GitHub Pages.
+- 🗺️ **[Google My Maps version](https://www.google.com/maps/d/viewer?mid=1IwBtX0TG5hQHGfx04lhkI6X1mvuFl1w)** — same data on top of Google's basemap, with the familiar Google Maps UI (satellite/terrain/traffic toggles, Street View on click).
 
 You can also drag [`isochrones.geojson`](#exporting) onto [geojson.io](https://geojson.io) or [kepler.gl](https://kepler.gl), or open [`bay_area_bike_isochrones.kml`](#exporting) in Google Earth.
 
@@ -125,11 +128,11 @@ Then re-run with `--rebuild`.
 
 The script produces several formats so you can use the data wherever:
 
-| Output | Format | Use it in |
-|---|---|---|
-| `bay_area_bike_isochrones.html` | Folium / Leaflet HTML | Any browser (also deployed to GitHub Pages) |
-| `bay_area_bike_isochrones.kml` (with `--kml`) | KML | Google Earth Pro / Web, Google My Maps |
-| `isochrones.geojson` | GeoJSON | QGIS, [geojson.io](https://geojson.io), [kepler.gl](https://kepler.gl), [Felt](https://felt.com), Mapbox, ArcGIS |
+| Output | Format | Use it in | Live example |
+|---|---|---|---|
+| `bay_area_bike_isochrones.html` | Folium / Leaflet HTML | Any browser | [GitHub Pages](https://vignesh-anand.github.io/bay-area-bike-isochrones/) |
+| `bay_area_bike_isochrones.kml` (with `--kml`) | KML | Google Earth Pro / Web, Google My Maps | [Google My Maps](https://www.google.com/maps/d/viewer?mid=1IwBtX0TG5hQHGfx04lhkI6X1mvuFl1w) |
+| `isochrones.geojson` | GeoJSON | QGIS, [geojson.io](https://geojson.io), [kepler.gl](https://kepler.gl), [Felt](https://felt.com), Mapbox, ArcGIS | drop the file in to test |
 
 ```bash
 python build_map.py --map-only --kml   # re-render outputs without recomputing
