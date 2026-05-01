@@ -146,3 +146,12 @@ python render_preview.py               # regenerate the static PNG for this READ
   reduce uphill range.
 - Polygons are concave hulls of reachable graph nodes, so they may slightly
   overshoot the true reachable area on the boundary.
+
+## License
+
+[MIT](LICENSE). Use this code for whatever you want; attribution appreciated
+but not required.
+
+Station coordinates come from each agency's public GTFS feed; map tiles are
+attributed to OpenStreetMap contributors / Carto / Esri as configured in the
+respective layers.
